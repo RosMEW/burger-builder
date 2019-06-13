@@ -1,0 +1,9 @@
+@import './style/mixins.scss';
+
+.container {
+    @include flexColumn();
+}
+
+main {
+    margin-top: 7.2rem;
+}
