@@ -8,9 +8,7 @@
 
     a {
         @include flexRow();
-        font-family: 'Josefin Sans', sans-serif;
-        font-weight: 300;
-        font-size: 1.9rem;
+        @include fontJosefin(1.9rem);
         text-align: center;
         color: white;
         text-decoration: none;

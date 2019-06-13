@@ -11,3 +11,15 @@
     align-items: $align-items;
     justify-content: $justify-content;
 }
+
+@mixin fontJosefin($fontSize: 1.6rem, $fontWeight: 300) {
+    font-size: $fontSize;
+    font-weight: $fontWeight;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+@mixin fontNunito($fontSize: 1.6rem, $fontWeight: 300) {
+    font-size: $fontSize;
+    font-weight: $fontWeight;
+    font-family: 'Nunito', sans-serif;
+}

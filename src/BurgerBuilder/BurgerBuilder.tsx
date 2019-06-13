@@ -1,12 +1,13 @@
 import React from 'react';
 
 import Burger from './Burger/Burger';
+import Controller from './Controller/Controller';
 
 const BurgerBuilder = () => {
     return (
         <React.Fragment>
             <Burger />
-            <div className='control' />
+            <Controller />
         </React.Fragment>
     );
 };
