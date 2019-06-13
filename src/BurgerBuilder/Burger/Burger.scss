@@ -1,0 +1,22 @@
+@import '../../style/mixins.scss';
+
+.Burger {
+    @include flexColumn();
+    width: 70rem;
+    height: 50rem;
+    text-align: center;
+    margin: auto;
+    overflow-y: scroll;
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 400;
+    font-size: 1.2rem;
+}
+
+::-webkit-scrollbar {
+    background-color: #f5f5f5;
+    width: 1rem;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #dddedf;
+}

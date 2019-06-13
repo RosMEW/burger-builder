@@ -3,16 +3,17 @@
 
 .toolbar {
     @include flexRow(space-between);
-    height: 5.6rem;
+    height: 6rem;
     width: 100%;
     position: fixed;
     top: 0;
     left: 0;
     background-color: $color-brown-primary;
-    padding: 0 3rem;
+    padding: 0 4rem;
     z-index: 100;
 
     &__logo {
+        @include flexRow(center);
         background-color: white;
         padding: 0.8rem;
         height: 80%;
