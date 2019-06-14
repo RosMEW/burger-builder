@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
 import Burger from './Burger/Burger';
 import Controller from './Controller/Controller';
 import Modal from '../UI/Modal/Modal';
 import OrderSummary from './OrderSummary/OrderSummary';
+
+import Spinner from '../UI/Spinner/Spinner';
+import { initIngredients } from '../store/actions/burgerBuilder';
 import {
     burgerBuilderState,
     ingredients
@@ -12,13 +15,22 @@ import {
 
 type burgerBuilderProps = {
     price: number;
+    ingredients: ingredients;
     onIngredientAdded: (ing: string) => void;
     onIngredientRemoved: (ing: string) => void;
-    ingredients: ingredients;
+    onInitIngredients: () => void;
+    history: any;
+    error: boolean;
 };
 
 const BurgerBuilder = (props: burgerBuilderProps) => {
     const [purchasing, setPurchasing] = useState(false);
+
+    const { onInitIngredients, onIngredientRemoved, onIngredientAdded } = props;
+
+    useEffect(() => {
+        onInitIngredients();
+    }, []);
 
     const purchaseHandler = () => {
         setPurchasing(true);
@@ -29,30 +41,45 @@ const BurgerBuilder = (props: burgerBuilderProps) => {
     };
 
     const purchaseContinueHandler = () => {
-        // props.onInitPurchase();
-        // props.history.push('/checkout');
+        props.history.push('/checkout');
     };
+
+    let orderSummary = null;
+    let burger = props.error ? (
+        <p>Error: Ingredients cannot be loaded.</p>
+    ) : (
+        <Spinner />
+    );
+
+    if (props.ingredients) {
+        orderSummary = (
+            <OrderSummary
+                ingredients={props.ingredients}
+                price={props.price}
+                purchaseCancelled={purchaseCancelHandler}
+                purchaseContinued={purchaseContinueHandler}
+            />
+        );
+        burger = (
+            <React.Fragment>
+                <Burger ingredients={props.ingredients} />
+                <Controller
+                    price={props.price}
+                    ingredientAdded={onIngredientAdded}
+                    ingredientRemoved={onIngredientRemoved}
+                    ingredients={props.ingredients}
+                    ordered={purchaseHandler}
+                />
+            </React.Fragment>
+        );
+    }
 
     return (
         <React.Fragment>
             <Modal show={purchasing} modalClosed={purchaseCancelHandler}>
-                {props.ingredients ? (
-                    <OrderSummary
-                        ingredients={props.ingredients}
-                        price={props.price}
-                        purchaseCancelled={purchaseCancelHandler}
-                        purchaseContinued={purchaseContinueHandler}
-                    />
-                ) : null}
+                {orderSummary}
             </Modal>
-            <Burger ingredients={props.ingredients} />
-            <Controller
-                price={props.price}
-                ingredientAdded={props.onIngredientAdded}
-                ingredientRemoved={props.onIngredientRemoved}
-                ingredients={props.ingredients}
-                ordered={purchaseHandler}
-            />
+            {burger}
         </React.Fragment>
     );
 };
@@ -60,7 +87,8 @@ const BurgerBuilder = (props: burgerBuilderProps) => {
 const mapStateToProps = (state: { burgerBuilder: burgerBuilderState }) => {
     return {
         ingredients: state.burgerBuilder.ingredients,
-        price: state.burgerBuilder.totalPrice
+        price: state.burgerBuilder.totalPrice,
+        error: state.burgerBuilder.error
     };
 };
 
@@ -69,7 +97,8 @@ const mapDispatchToProps = (dispatch: DispatchProp['dispatch']) => {
         onIngredientAdded: (ing: string) =>
             dispatch({ type: 'ADD_INGREDIENT', ingName: ing }),
         onIngredientRemoved: (ing: string) =>
-            dispatch({ type: 'REMOVE_INGREDIENT', ingName: ing })
+            dispatch({ type: 'REMOVE_INGREDIENT', ingName: ing }),
+        onInitIngredients: () => dispatch(initIngredients() as any)
     };
 };
 

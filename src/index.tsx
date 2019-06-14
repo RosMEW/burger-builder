@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { BrowserRouter } from 'react-router-dom';
+import thunk from 'redux-thunk';
 
 import { burgerBuilderReducer } from './store/reducers/burgerBuilderReducer';
 import './index.scss';
@@ -11,11 +13,13 @@ const rootReducer = combineReducers({
     burgerBuilder: burgerBuilderReducer
 });
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, applyMiddleware(thunk));
 
 ReactDOM.render(
     <Provider store={store}>
-        <App />
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
     </Provider>,
     document.getElementById('root')
 );

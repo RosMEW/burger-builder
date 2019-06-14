@@ -15,6 +15,8 @@ export type ingredients = {
 export type burgerBuilderState = {
     ingredients: ingredients;
     totalPrice: number;
+    error: boolean;
+    building: boolean;
 };
 
 const initialState = {
@@ -24,7 +26,9 @@ const initialState = {
         meat: 0,
         bacon: 0
     },
-    totalPrice: 0
+    totalPrice: 0,
+    error: false,
+    building: false
 };
 
 const INGREDIENT_PRICES = {
@@ -56,12 +60,38 @@ const removeIngredient = (state: burgerBuilderState, action: action) => {
     };
 };
 
+const setIngredients = (state: burgerBuilderState, action: any) => {
+    return {
+        ...state,
+        ingredients: {
+            salad: action.ingredients.salad,
+            bacon: action.ingredients.bacon,
+            cheese: action.ingredients.cheese,
+            meat: action.ingredients.meat
+        },
+        totalPrice: 3.5,
+        error: false,
+        building: false
+    };
+};
+
+const fetchIngredientsFailed = (state: burgerBuilderState, action: any) => {
+    return {
+        ...state,
+        error: true
+    };
+};
+
 export const burgerBuilderReducer = (state = initialState, action: action) => {
     switch (action.type) {
         case 'ADD_INGREDIENT':
             return addIngredient(state, action);
         case 'REMOVE_INGREDIENT':
             return removeIngredient(state, action);
+        case 'SET_INGREDIENTS':
+            return setIngredients(state, action);
+        case 'FETCH_INGREDIENTS_FAILED':
+            return fetchIngredientsFailed(state, action);
         default:
             return state;
     }

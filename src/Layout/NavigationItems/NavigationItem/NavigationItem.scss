@@ -19,7 +19,8 @@
     }
 
     a:hover,
-    a:active {
+    a:active,
+    &--active {
         background-color: rgba(white, 0.1);
         border-bottom: 4px solid $color-green-ui;
     }
