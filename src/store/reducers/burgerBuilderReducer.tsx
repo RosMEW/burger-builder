@@ -1,7 +1,9 @@
 type action = {
     type: string;
-    ingName: 'meat' | 'cheese' | 'bacon' | 'salad';
+    ingName: ingredientNames;
 };
+
+export type ingredientNames = 'meat' | 'cheese' | 'bacon' | 'salad';
 
 export type ingredients = {
     salad: number;
@@ -22,7 +24,7 @@ const initialState = {
         meat: 0,
         bacon: 0
     },
-    totalPrice: 3.5
+    totalPrice: 0
 };
 
 const INGREDIENT_PRICES = {

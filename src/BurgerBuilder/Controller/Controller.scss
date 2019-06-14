@@ -17,6 +17,12 @@
     background-color: $bgColor;
 }
 
+@mixin disabledButton($cursor: default, $color: $color-boxShadow-white, $bgColor: $color-buttonDisabled-brown) {
+    background-color: $bgColor;
+    color: $color;
+    cursor: $cursor;
+}
+
 .controller {
     @include flexRow(space-between);
     @include fontNunito();
@@ -61,6 +67,16 @@
                 border-radius: 5px;
             }
 
+            & button:disabled {
+                @include disabledButton();
+                border: 1px solid $color-buttonBorder-disabled;
+            }
+
+            & button:hover:disabled {
+                @include disabledButton(not-allowed);
+
+            }
+
             &__less {
                 @include optionButton(#D39952);
             }
@@ -95,6 +111,13 @@
     &__button:active {
         background-color: #A0DB41;
         animation: enable 0.3s linear;
+    }
+
+    &__button:disabled {
+        @include disabledButton(not-allowed, #888, $color-boxShadow-white);
+        border: 1px solid $color-boxShadow-white;
+        animation: none;
+
     }
 }
 

@@ -3,12 +3,16 @@ import { connect, DispatchProp } from 'react-redux';
 
 import Burger from './Burger/Burger';
 import Controller from './Controller/Controller';
-import { burgerBuilderState } from '../store/reducers/burgerBuilderReducer';
+import {
+    burgerBuilderState,
+    ingredients
+} from '../store/reducers/burgerBuilderReducer';
 
 type burgerBuilderProps = {
     price: number;
     onIngredientAdded: (ing: string) => void;
     onIngredientRemoved: (ing: string) => void;
+    ingredients: ingredients;
 };
 
 const BurgerBuilder = (props: burgerBuilderProps) => {
@@ -19,6 +23,7 @@ const BurgerBuilder = (props: burgerBuilderProps) => {
                 price={props.price}
                 ingredientAdded={props.onIngredientAdded}
                 ingredientRemoved={props.onIngredientRemoved}
+                ingredients={props.ingredients}
             />
         </React.Fragment>
     );
@@ -31,7 +36,7 @@ const mapStateToProps = (state: { burgerBuilder: burgerBuilderState }) => {
     };
 };
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: DispatchProp['dispatch']) => {
     return {
         onIngredientAdded: (ing: string) =>
             dispatch({ type: 'ADD_INGREDIENT', ingName: ing }),
