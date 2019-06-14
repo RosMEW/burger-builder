@@ -1,4 +1,5 @@
 import React from 'react';
+import { reduce } from 'lodash';
 
 import {
     ingredients,
@@ -16,17 +17,18 @@ type controllerProps = {
 const orderOptions: ingredientNames[] = ['meat', 'cheese', 'bacon', 'salad'];
 
 const Controller = (props: controllerProps) => {
-    const hasIngredient = (ings: ingredients) => {
-        const sum = (Object.keys(ings) as ingredientNames[]).reduce(
-            (sum, igKey) => sum + ings[igKey],
-            0
-        );
-        return sum > 0;
-    };
+    const ingsQuantity = reduce(
+        props.ingredients,
+        (sum, value) => sum + value,
+        0
+    );
+
+    const hasIngredient = ingsQuantity > 0;
+
     return (
         <div className='controller'>
             <p>
-                Current Price($): <strong>{props.price.toFixed(2)}</strong>
+                Current Price<span>$ {props.price.toFixed(2)}</span>
             </p>
             <div className='controller__options'>
                 {orderOptions.map(option => (
@@ -40,15 +42,14 @@ const Controller = (props: controllerProps) => {
                         </button>
                         <button
                             className='option__more'
-                            onClick={() => props.ingredientAdded(option)}>
+                            onClick={() => props.ingredientAdded(option)}
+                            disabled={ingsQuantity >= 6}>
                             More
                         </button>
                     </div>
                 ))}
             </div>
-            <button
-                className='controller__button'
-                disabled={!hasIngredient(props.ingredients)}>
+            <button className='controller__button' disabled={!hasIngredient}>
                 ORDER NOW
             </button>
         </div>

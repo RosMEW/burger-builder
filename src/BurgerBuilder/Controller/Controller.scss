@@ -33,11 +33,11 @@
     color: white;
 
     & p {
-        font-size: 3rem;
+        font-size: 2.5rem;
         padding: 2rem;
         text-align: center;
 
-        strong {
+        span {
             display: block;
             font-size: 4rem;
         }
@@ -101,7 +101,7 @@
     &__button {
         @include controllerButton(1.5rem 3rem, $color-orderButton-brown, $color-orderButton-brown);
         @include fontNunito(1.8rem);
-        background-color: #DAD735;
+        background-color: $color-orderButton-yellow;
         font-weight: bold;
         border-radius: 6px;
         margin: 2rem;
@@ -109,8 +109,8 @@
 
     &__button:hover,
     &__button:active {
-        background-color: #A0DB41;
-        animation: enable 0.3s linear;
+        background-color: $color-orderButton-green;
+        animation: enable .5s linear;
     }
 
     &__button:disabled {

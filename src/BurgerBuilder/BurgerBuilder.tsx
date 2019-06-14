@@ -18,7 +18,7 @@ type burgerBuilderProps = {
 const BurgerBuilder = (props: burgerBuilderProps) => {
     return (
         <React.Fragment>
-            <Burger />
+            <Burger ingredients={props.ingredients} />
             <Controller
                 price={props.price}
                 ingredientAdded={props.onIngredientAdded}
