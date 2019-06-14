@@ -5,9 +5,11 @@ import './NavigationItems.scss';
 
 const NavigationItems = () => (
     <ul className='navigation-items'>
-        <NavigationItem>Burger Builder</NavigationItem>
-        <NavigationItem>Orders</NavigationItem>
-        <NavigationItem>Authenticate</NavigationItem>
+        <NavigationItem link='/' exact>
+            Burger Builder
+        </NavigationItem>
+        <NavigationItem link='/order'>Orders</NavigationItem>
+        <NavigationItem link='/auth'>Authenticate</NavigationItem>
     </ul>
 );
 

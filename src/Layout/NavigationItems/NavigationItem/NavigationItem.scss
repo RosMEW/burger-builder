@@ -2,24 +2,25 @@
 @import '../../../style/mixins.scss';
 
 .navigation-item {
-    @include flexRow();
     height: 100%;
     width: auto;
+    list-style: none;
 
     a {
-        font-family: 'Josefin Sans', sans-serif;
-        font-weight: 300;
-        font-size: 1.9rem;
+        @include flexRow();
+        @include fontJosefin(1.9rem);
+        text-align: center;
         color: white;
         text-decoration: none;
         height: 100%;
         padding: 1.6rem 1rem;
-        border-bottom: 4px solid transparent;
+        border-bottom: 0.5rem solid transparent;
         transition: all .3s;
     }
 
     a:hover,
-    a:active {
+    a:active,
+    &--active {
         background-color: rgba(white, 0.1);
         border-bottom: 4px solid $color-green-ui;
     }
