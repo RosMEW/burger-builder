@@ -1,0 +1,27 @@
+@import '../../style/color.scss';
+@import '../../style/mixins.scss';
+
+.modal {
+    @include flexColumn();
+    @include fontNunito(1.8rem);
+    position: fixed;
+    z-index: 500;
+    left: calc(50% - 25rem);
+    top: 25%;
+    width: 50rem;
+    background-color: white;
+    border: 1.5rem solid $color-brown-secondary;
+    border-radius: 5px;
+    padding: 4rem 5rem;
+    transition: all .5s ease-out;
+
+    &--show {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    &--hide {
+        transform: translateY(200vh);
+        opacity: 0;
+    }
+}

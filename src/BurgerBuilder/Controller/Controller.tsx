@@ -12,6 +12,7 @@ type controllerProps = {
     ingredients: ingredients;
     ingredientRemoved: (option: string) => void;
     ingredientAdded: (option: string) => void;
+    ordered: () => void;
 };
 
 const orderOptions: ingredientNames[] = ['meat', 'cheese', 'bacon', 'salad'];
@@ -49,7 +50,10 @@ const Controller = (props: controllerProps) => {
                     </div>
                 ))}
             </div>
-            <button className='controller__button' disabled={!hasIngredient}>
+            <button
+                className='controller__button'
+                disabled={!hasIngredient}
+                onClick={props.ordered}>
                 ORDER NOW
             </button>
         </div>

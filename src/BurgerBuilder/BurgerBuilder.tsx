@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
 import Burger from './Burger/Burger';
 import Controller from './Controller/Controller';
+import Modal from '../UI/Modal/Modal';
+import OrderSummary from './OrderSummary/OrderSummary';
 import {
     burgerBuilderState,
     ingredients
@@ -16,14 +18,40 @@ type burgerBuilderProps = {
 };
 
 const BurgerBuilder = (props: burgerBuilderProps) => {
+    const [purchasing, setPurchasing] = useState(false);
+
+    const purchaseHandler = () => {
+        setPurchasing(true);
+    };
+
+    const purchaseCancelHandler = () => {
+        setPurchasing(false);
+    };
+
+    const purchaseContinueHandler = () => {
+        // props.onInitPurchase();
+        // props.history.push('/checkout');
+    };
+
     return (
         <React.Fragment>
+            <Modal show={purchasing} modalClosed={purchaseCancelHandler}>
+                {props.ingredients ? (
+                    <OrderSummary
+                        ingredients={props.ingredients}
+                        price={props.price}
+                        purchaseCancelled={purchaseCancelHandler}
+                        purchaseContinued={purchaseContinueHandler}
+                    />
+                ) : null}
+            </Modal>
             <Burger ingredients={props.ingredients} />
             <Controller
                 price={props.price}
                 ingredientAdded={props.onIngredientAdded}
                 ingredientRemoved={props.onIngredientRemoved}
                 ingredients={props.ingredients}
+                ordered={purchaseHandler}
             />
         </React.Fragment>
     );
