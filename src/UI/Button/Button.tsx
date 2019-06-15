@@ -5,7 +5,7 @@ import './Button.scss';
 type button = {
     disabled?: boolean;
     btnType: 'Success' | 'Danger';
-    onClick: () => void;
+    onClick?: () => void;
     btnText: string;
 };
 

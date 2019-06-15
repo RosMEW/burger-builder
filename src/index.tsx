@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { BrowserRouter } from 'react-router-dom';
-import thunk from 'redux-thunk';
-
 import { burgerBuilderReducer } from './store/reducers/burgerBuilderReducer';
+
 import './index.scss';
 import App from './App';
 

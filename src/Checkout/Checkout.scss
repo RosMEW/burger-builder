@@ -1,0 +1,15 @@
+@import '../style/mixins.scss';
+
+.checkout {
+    @include flexColumn();
+    width: 100%;
+    padding: 2rem;
+
+    h1 {
+        @include fontJosefin(6rem);
+    }
+
+    &__buttons {
+        font-size: 3.5rem;
+    }
+}
