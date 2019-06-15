@@ -12,6 +12,7 @@ import {
     burgerBuilderState,
     ingredients
 } from '../store/reducers/burgerBuilderReducer';
+import { RouterProps } from 'react-router';
 
 type burgerBuilderProps = {
     price: number;
@@ -19,9 +20,8 @@ type burgerBuilderProps = {
     onIngredientAdded: (ing: string) => void;
     onIngredientRemoved: (ing: string) => void;
     onInitIngredients: () => void;
-    history: any;
     error: boolean;
-};
+} & RouterProps;
 
 const BurgerBuilder = (props: burgerBuilderProps) => {
     const [purchasing, setPurchasing] = useState(false);
@@ -30,7 +30,7 @@ const BurgerBuilder = (props: burgerBuilderProps) => {
 
     useEffect(() => {
         onInitIngredients();
-    }, []);
+    }, [onInitIngredients]);
 
     const purchaseHandler = () => {
         setPurchasing(true);

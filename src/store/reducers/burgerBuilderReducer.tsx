@@ -3,6 +3,11 @@ type action = {
     ingName: ingredientNames;
 };
 
+type initAction = {
+    type: string;
+    ingredients: ingredients;
+};
+
 export type ingredientNames = 'meat' | 'cheese' | 'bacon' | 'salad';
 
 export type ingredients = {
@@ -60,7 +65,7 @@ const removeIngredient = (state: burgerBuilderState, action: action) => {
     };
 };
 
-const setIngredients = (state: burgerBuilderState, action: any) => {
+const setIngredients = (state: burgerBuilderState, action: initAction) => {
     return {
         ...state,
         ingredients: {
@@ -75,23 +80,26 @@ const setIngredients = (state: burgerBuilderState, action: any) => {
     };
 };
 
-const fetchIngredientsFailed = (state: burgerBuilderState, action: any) => {
+const fetchIngredientsFailed = (state: burgerBuilderState) => {
     return {
         ...state,
         error: true
     };
 };
 
-export const burgerBuilderReducer = (state = initialState, action: action) => {
+export const burgerBuilderReducer = (
+    state = initialState,
+    action: action | initAction
+) => {
     switch (action.type) {
         case 'ADD_INGREDIENT':
-            return addIngredient(state, action);
+            return addIngredient(state, action as action);
         case 'REMOVE_INGREDIENT':
-            return removeIngredient(state, action);
+            return removeIngredient(state, action as action);
         case 'SET_INGREDIENTS':
-            return setIngredients(state, action);
+            return setIngredients(state, action as initAction);
         case 'FETCH_INGREDIENTS_FAILED':
-            return fetchIngredientsFailed(state, action);
+            return fetchIngredientsFailed(state);
         default:
             return state;
     }
