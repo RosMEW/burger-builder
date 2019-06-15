@@ -10,11 +10,13 @@ import {
     burgerBuilderState,
     ingredients
 } from '../store/reducers/burgerBuilderReducer';
+import { ordersState } from '../store/reducers/ordersReducer';
 import { RouteComponentProps, Switch } from 'react-router';
 import './Checkout.scss';
 
 type checkout = {
     ingredients: ingredients;
+    purchased: boolean;
 } & RouteComponentProps;
 
 const Checkout = (props: checkout) => {
@@ -51,6 +53,7 @@ const Checkout = (props: checkout) => {
         <div>
             {props.ingredients ? (
                 <Switch>
+                    {props.purchased ? <Redirect to='/' /> : null}
                     <Route
                         path={props.match.path + '/contact-data'}
                         component={ContactData}
@@ -64,9 +67,13 @@ const Checkout = (props: checkout) => {
     );
 };
 
-const mapStateToProps = (state: { burgerBuilder: burgerBuilderState }) => {
+const mapStateToProps = (state: {
+    burgerBuilder: burgerBuilderState;
+    orders: ordersState;
+}) => {
     return {
-        ingredients: state.burgerBuilder.ingredients
+        ingredients: state.burgerBuilder.ingredients,
+        purchased: state.orders.purchased
     };
 };
 export default connect(mapStateToProps)(Checkout);
