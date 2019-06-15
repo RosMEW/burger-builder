@@ -11,8 +11,8 @@ import './index.scss';
 import App from './App';
 
 const rootReducer = combineReducers({
-    burgerBuilder: burgerBuilderReducer,
-    orders: ordersReducer
+    burgerBuilder: burgerBuilderReducer as any,
+    orders: ordersReducer as any
 });
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
