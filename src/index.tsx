@@ -5,12 +5,14 @@ import { Provider } from 'react-redux';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { BrowserRouter } from 'react-router-dom';
 import { burgerBuilderReducer } from './store/reducers/burgerBuilderReducer';
+import { ordersReducer } from './store/reducers/ordersReducer';
 
 import './index.scss';
 import App from './App';
 
 const rootReducer = combineReducers({
-    burgerBuilder: burgerBuilderReducer
+    burgerBuilder: burgerBuilderReducer,
+    orders: ordersReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(thunk));

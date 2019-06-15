@@ -20,13 +20,19 @@ type burgerBuilderProps = {
     onIngredientAdded: (ing: string) => void;
     onIngredientRemoved: (ing: string) => void;
     onInitIngredients: () => void;
+    onInitPurchase: () => void;
     error: boolean;
 } & RouterProps;
 
 const BurgerBuilder = (props: burgerBuilderProps) => {
     const [purchasing, setPurchasing] = useState(false);
 
-    const { onInitIngredients, onIngredientRemoved, onIngredientAdded } = props;
+    const {
+        onInitIngredients,
+        onIngredientRemoved,
+        onIngredientAdded,
+        onInitPurchase
+    } = props;
 
     useEffect(() => {
         onInitIngredients();
@@ -41,6 +47,7 @@ const BurgerBuilder = (props: burgerBuilderProps) => {
     };
 
     const purchaseContinueHandler = () => {
+        onInitPurchase();
         props.history.push('/checkout');
     };
 
@@ -98,7 +105,8 @@ const mapDispatchToProps = (dispatch: DispatchProp['dispatch']) => {
             dispatch({ type: 'ADD_INGREDIENT', ingName: ing }),
         onIngredientRemoved: (ing: string) =>
             dispatch({ type: 'REMOVE_INGREDIENT', ingName: ing }),
-        onInitIngredients: () => dispatch(initIngredients() as any)
+        onInitIngredients: () => dispatch(initIngredients() as any),
+        onInitPurchase: () => dispatch({ type: 'PURCHASE_INIT' })
     };
 };
 
