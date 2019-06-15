@@ -1,18 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
+
 import Burger from '../BurgerBuilder/Burger/Burger';
 import Button from '../UI/Button/Button';
+import ContactData from './ContactData/ContactData';
+
 import {
     burgerBuilderState,
     ingredients
 } from '../store/reducers/burgerBuilderReducer';
-import { RouterProps } from 'react-router';
+import { RouteComponentProps, Switch } from 'react-router';
 import './Checkout.scss';
 
 type checkout = {
     ingredients: ingredients;
-} & RouterProps;
+} & RouteComponentProps;
 
 const Checkout = (props: checkout) => {
     const checkoutCancelledHandler = () => {
@@ -23,27 +26,37 @@ const Checkout = (props: checkout) => {
         props.history.replace('/checkout/contact-data');
     };
 
+    const checkout = (
+        <div className='checkout'>
+            <h1>We hope it tastes well!</h1>
+            <div className='checkout__burger'>
+                <Burger ingredients={props.ingredients} />
+            </div>
+            <div className='checkout__buttons'>
+                <Button
+                    btnText='CANCEL'
+                    btnType='Danger'
+                    onClick={checkoutCancelledHandler}
+                />
+                <Button
+                    btnText='CONTINUE'
+                    btnType='Success'
+                    onClick={checkoutContinuedHandler}
+                />
+            </div>
+        </div>
+    );
+
     return (
         <div>
             {props.ingredients ? (
-                <div className='checkout'>
-                    <h1>We hope it tastes well!</h1>
-                    <div className='checkout__burger'>
-                        <Burger ingredients={props.ingredients} />
-                    </div>
-                    <div className='checkout__buttons'>
-                        <Button
-                            btnText='CANCEL'
-                            btnType='Danger'
-                            onClick={checkoutCancelledHandler}
-                        />
-                        <Button
-                            btnText='CONTINUE'
-                            btnType='Success'
-                            onClick={checkoutContinuedHandler}
-                        />
-                    </div>
-                </div>
+                <Switch>
+                    <Route
+                        path={props.match.path + '/contact-data'}
+                        component={ContactData}
+                    />
+                    <Route path='/' render={() => checkout} />
+                </Switch>
             ) : (
                 <Redirect to='/' />
             )}
