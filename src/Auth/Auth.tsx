@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '../UI/Button/Button';
 import Spinner from '../UI/Spinner/Spinner';
 import { checkValidity } from '../Checkout/ContactData/checkValidity';
@@ -16,6 +16,8 @@ type auth = {
     error: any;
     loading: boolean;
     onAuth: (email: string, password: string, isSignup: boolean) => void;
+    buildingBurger: boolean;
+    onSetAuthRedirectPath: () => void;
 };
 
 type inputValidation = {
@@ -49,6 +51,11 @@ const Auth = (props: auth) => {
             value: ''
         }
     });
+
+    useEffect(() => {
+        if (!props.buildingBurger && props.authRedirectPath !== '/')
+            props.onSetAuthRedirectPath();
+    }, []);
 
     const inputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         const inputType = event.target.attributes.getNamedItem('name');
@@ -143,7 +150,9 @@ const mapStateToProps = (state: {
 const mapDispatchToProps = (dispatch: DispatchProp['dispatch']) => {
     return {
         onAuth: (email: string, password: string, isSignup: boolean) =>
-            dispatch(auth(email, password, isSignup) as any)
+            dispatch(auth(email, password, isSignup) as any),
+        onSetAuthRedirectPath: () =>
+            dispatch({ type: 'SET_AUTH_REDIRECT_PATH', path: '/' })
     };
 };
 

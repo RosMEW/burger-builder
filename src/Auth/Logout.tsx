@@ -11,7 +11,6 @@ const Logout = (props: logout) => {
     useEffect(() => {
         props.onLogout();
     }, []);
-
     return <Redirect to='/' />;
 };
 
