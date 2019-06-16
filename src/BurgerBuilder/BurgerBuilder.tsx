@@ -13,6 +13,7 @@ import {
     ingredients
 } from '../store/reducers/burgerBuilderReducer';
 import { RouterProps } from 'react-router';
+import { authState } from '../store/reducers/authReducer';
 
 type burgerBuilderProps = {
     price: number;
@@ -21,6 +22,7 @@ type burgerBuilderProps = {
     onIngredientRemoved: (ing: string) => void;
     onInitIngredients: () => void;
     onInitPurchase: () => void;
+    isAuthenticated: boolean;
     error: boolean;
 } & RouterProps;
 
@@ -39,7 +41,8 @@ const BurgerBuilder = (props: burgerBuilderProps) => {
     }, [onInitIngredients]);
 
     const purchaseHandler = () => {
-        setPurchasing(true);
+        if (props.isAuthenticated) setPurchasing(true);
+        else props.history.push('/auth');
     };
 
     const purchaseCancelHandler = () => {
@@ -91,11 +94,15 @@ const BurgerBuilder = (props: burgerBuilderProps) => {
     );
 };
 
-const mapStateToProps = (state: { burgerBuilder: burgerBuilderState }) => {
+const mapStateToProps = (state: {
+    burgerBuilder: burgerBuilderState;
+    auth: authState;
+}) => {
     return {
         ingredients: state.burgerBuilder.ingredients,
         price: state.burgerBuilder.totalPrice,
-        error: state.burgerBuilder.error
+        error: state.burgerBuilder.error,
+        isAuthenticated: state.auth.token !== null
     };
 };
 

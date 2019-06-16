@@ -51,9 +51,9 @@ const Checkout = (props: checkout) => {
 
     return (
         <div>
+            {props.purchased ? <Redirect to='/orders' /> : null}
             {props.ingredients ? (
                 <Switch>
-                    {props.purchased ? <Redirect to='/' /> : null}
                     <Route
                         path={props.match.path + '/contact-data'}
                         component={ContactData}

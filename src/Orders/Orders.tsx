@@ -4,6 +4,7 @@ import { map } from 'lodash';
 import Spinner from '../UI/Spinner/Spinner';
 import { fetchOrders } from '../store/actions/orders';
 import { ordersState, orderData } from '../store/reducers/ordersReducer';
+import { authState } from '../store/reducers/authReducer';
 
 type orders = {
     onFetchOrders: (token: string, userId: string) => void;
@@ -17,6 +18,7 @@ type orders = {
 const Orders = (props: orders) => {
     useEffect(() => {
         props.onFetchOrders(props.token, props.userId);
+        // eslint-disable-next-line
     }, []);
 
     return (
@@ -45,13 +47,13 @@ const Orders = (props: orders) => {
     );
 };
 
-const mapStateToProps = (state: { orders: ordersState }) => {
+const mapStateToProps = (state: { orders: ordersState; auth: authState }) => {
     return {
         orders: state.orders.orders,
         loading: state.orders.loading,
-        token: 'asdfasdf',
-        userId: 'testtest',
-        error: state.orders.error
+        error: state.orders.error,
+        token: state.auth.token,
+        userId: state.auth.userId
     };
 };
 

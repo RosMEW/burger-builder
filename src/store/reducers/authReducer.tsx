@@ -3,7 +3,6 @@ export type authState = {
     userId: string;
     error: string;
     loading: boolean;
-    authRedirectPath: string;
 };
 
 type action = {
@@ -11,15 +10,13 @@ type action = {
     token?: string;
     userId?: string;
     error?: string;
-    path?: string;
 };
 
 const initialState = {
     token: null,
     userId: null,
     error: null,
-    loading: false,
-    authRedirectPath: '/'
+    loading: false
 };
 
 export const authReducer = (state = initialState, action: action) => {
@@ -38,8 +35,6 @@ export const authReducer = (state = initialState, action: action) => {
             return { ...state, token: null, userId: null };
         case 'AUTH_FAIL':
             return { ...state, error: action.error, loading: false };
-        case 'SET_AUTH_REDIRECT_PATH':
-            return { ...state, authRedirectPath: action.path };
         default:
             return state;
     }

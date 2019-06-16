@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import Button from '../UI/Button/Button';
 import Spinner from '../UI/Spinner/Spinner';
 import { checkValidity } from '../Checkout/ContactData/checkValidity';
-import { Dictionary } from 'lodash';
+import { Dictionary, reduce } from 'lodash';
 import './Auth.scss';
 import { authState } from '../store/reducers/authReducer';
 import { burgerBuilderState } from '../store/reducers/burgerBuilderReducer';
 import { auth } from '../store/actions/auth';
 import { DispatchProp, connect } from 'react-redux';
-import { Redirect } from 'react-router';
+import { Redirect, RouterProps } from 'react-router';
 
 type auth = {
     isAuthenticated: boolean;
@@ -18,7 +18,7 @@ type auth = {
     onAuth: (email: string, password: string, isSignup: boolean) => void;
     buildingBurger: boolean;
     onSetAuthRedirectPath: () => void;
-};
+} & RouterProps;
 
 type inputValidation = {
     validation: any;
@@ -31,6 +31,7 @@ type authForm = Dictionary<inputValidation>;
 
 const Auth = (props: auth) => {
     const [isSignup, setIsSignup] = useState(true);
+    const [isFormValid, setIsFormValid] = useState(false);
     const [authForm, setAuthForm] = useState<authForm>({
         email: {
             validation: {
@@ -42,7 +43,6 @@ const Auth = (props: auth) => {
         },
         password: {
             validation: {
-                isNumber: true,
                 minLength: 8,
                 maxLength: 12
             },
@@ -51,11 +51,6 @@ const Auth = (props: auth) => {
             value: ''
         }
     });
-
-    useEffect(() => {
-        if (!props.buildingBurger && props.authRedirectPath !== '/')
-            props.onSetAuthRedirectPath();
-    }, []);
 
     const inputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         const inputType = event.target.attributes.getNamedItem('name');
@@ -77,6 +72,12 @@ const Auth = (props: auth) => {
         });
     };
 
+    useEffect(() => {
+        const checkFormValidity = () =>
+            reduce(authForm, (acc, val) => val.valid && acc, true);
+        setIsFormValid(checkFormValidity());
+    }, [authForm]);
+
     const classNameInvalid = (inputType: string) => {
         if (!authForm[inputType].valid && authForm[inputType].touched)
             return 'inputInvalid';
@@ -88,11 +89,13 @@ const Auth = (props: auth) => {
         props.onAuth(authForm.email.value, authForm.password.value, isSignup);
     };
 
+    let redirect = props.isAuthenticated ? <Redirect to='/' /> : null;
+    if (props.buildingBurger && props.isAuthenticated)
+        redirect = <Redirect to='/checkout' />;
+
     return (
         <div className='auth'>
-            {props.isAuthenticated ? (
-                <Redirect to={props.authRedirectPath} />
-            ) : null}
+            {redirect}
             {props.error ? <h5>{props.error.message}</h5> : null}
             <form onSubmit={submitHandler}>
                 {props.loading ? (
@@ -118,7 +121,11 @@ const Auth = (props: auth) => {
                     </React.Fragment>
                 )}
                 <div className='authButton'>
-                    <Button btnText='SUBMIT' btnType='Success' />
+                    <Button
+                        btnText='SUBMIT'
+                        btnType='Success'
+                        disabled={!isFormValid}
+                    />
                 </div>
             </form>
             <div className='authButton'>
@@ -142,17 +149,14 @@ const mapStateToProps = (state: {
         loading: state.auth.loading,
         error: state.auth.error,
         isAuthenticated: state.auth.token !== null,
-        buildingBurger: state.burgerBuilder.building,
-        authRedirectPath: state.auth.authRedirectPath
+        buildingBurger: state.burgerBuilder.building
     };
 };
 
 const mapDispatchToProps = (dispatch: DispatchProp['dispatch']) => {
     return {
         onAuth: (email: string, password: string, isSignup: boolean) =>
-            dispatch(auth(email, password, isSignup) as any),
-        onSetAuthRedirectPath: () =>
-            dispatch({ type: 'SET_AUTH_REDIRECT_PATH', path: '/' })
+            dispatch(auth(email, password, isSignup) as any)
     };
 };
 

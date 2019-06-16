@@ -6,6 +6,8 @@ import {
     ingredientNames
 } from '../../store/reducers/burgerBuilderReducer';
 import './Controller.scss';
+import { connect } from 'react-redux';
+import { authState } from '../../store/reducers/authReducer';
 
 type controllerProps = {
     price: number;
@@ -13,6 +15,7 @@ type controllerProps = {
     ingredientRemoved: (option: string) => void;
     ingredientAdded: (option: string) => void;
     ordered: () => void;
+    isAuthenticated: boolean;
 };
 
 const orderOptions: ingredientNames[] = ['meat', 'cheese', 'bacon', 'salad'];
@@ -54,10 +57,16 @@ const Controller = (props: controllerProps) => {
                 className='controller__button'
                 disabled={!hasIngredient}
                 onClick={props.ordered}>
-                ORDER NOW
+                {props.isAuthenticated ? 'ORDER NOW' : 'SIGN UP TO ORDER'}
             </button>
         </div>
     );
 };
 
-export default Controller;
+const mapStateToProps = (state: { auth: authState }) => {
+    return {
+        isAuthenticated: state.auth.token !== null
+    };
+};
+
+export default connect(mapStateToProps)(Controller);

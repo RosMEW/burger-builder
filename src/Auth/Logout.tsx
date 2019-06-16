@@ -10,6 +10,7 @@ type logout = {
 const Logout = (props: logout) => {
     useEffect(() => {
         props.onLogout();
+        // eslint-disable-next-line
     }, []);
     return <Redirect to='/' />;
 };
