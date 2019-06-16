@@ -1,14 +1,8 @@
-@import '../../style/mixins.scss';
-@import '../../style/color.scss';
+@import '../style/mixins.scss';
+@import '../style/color.scss';
 
-.contact-data {
+.auth {
     @include form();
-
-    & h4 {
-        @include fontJosefin(2.5rem, 400);
-        margin: 1.6rem;
-        color: $color-brown-secondary;
-    }
 
     & form {
         @include flexColumn();
@@ -25,10 +19,23 @@
             @include input-autofill();
         }
 
-        .formButton {
-            @include form-button();
+        input:last-of-type {
+            margin-bottom: 3rem;
         }
     }
+
+    & h5 {
+        @include fontNunito(2.5rem, 300);
+        margin: 1.6rem;
+        color: $color-bacon-1;
+    }
+
+}
+
+.authButton {
+    @include form-button();
+    margin: 0 auto;
+    font-size: 2.5rem;
 }
 
 .inputInvalid {

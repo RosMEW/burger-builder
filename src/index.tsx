@@ -6,13 +6,15 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { BrowserRouter } from 'react-router-dom';
 import { burgerBuilderReducer } from './store/reducers/burgerBuilderReducer';
 import { ordersReducer } from './store/reducers/ordersReducer';
+import { authReducer } from './store/reducers/authReducer';
 
 import './index.scss';
 import App from './App';
 
 const rootReducer = combineReducers({
     burgerBuilder: burgerBuilderReducer as any,
-    orders: ordersReducer as any
+    orders: ordersReducer as any,
+    auth: authReducer as any
 });
 
 const store = createStore(rootReducer, applyMiddleware(thunk));

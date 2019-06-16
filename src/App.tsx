@@ -7,6 +7,7 @@ import './App.scss';
 
 const Checkout = React.lazy(() => import('./Checkout/Checkout'));
 const Orders = React.lazy(() => import('./Orders/Orders'));
+const Auth = React.lazy(() => import('./Auth/Auth'));
 
 const App = () => {
     let routes = (
@@ -16,6 +17,7 @@ const App = () => {
                 path='/orders'
                 render={props => <Orders {...props as any} />}
             />
+            <Route path='/auth' render={props => <Auth {...props as any} />} />
             <Route path='/' exact component={BurgerBuilder} />
             <Redirect to='/' />
         </Switch>
