@@ -4,12 +4,13 @@
 .burger {
     @include flexColumn();
     width: 70rem;
-    height: 60vh;
+    height: 62vh;
     text-align: center;
     margin: 0 auto;
     font-family: 'Josefin Sans', sans-serif;
     font-weight: 400;
     font-size: 1.2rem;
+    padding: 1rem 0;
 }
 
 .addIngredient {
@@ -19,13 +20,13 @@
 
 @media only screen and (max-width: $bp-largest) {
     .burger {
-        width: 70%;
+        width: 80%;
     }
 }
 
 @media only screen and (max-width: $bp-small) {
     .burger {
         width: 100%;
-        padding: 0;
+        padding: 0.5rem;
     }
 }

@@ -28,16 +28,16 @@ type formValidation = Dictionary<inputValidation>;
 type contactData = {
     ingredients: ingredients;
     price: number;
-    onOrderBurger: (orderData: orderData, token: string) => void;
-    onInitPurchase: () => void;
     loading: boolean;
     error: string;
-    purchased: boolean;
     token: string;
     userId: string;
+    onInitPurchase: () => void;
+    onOrderBurger: (orderData: orderData, token: string) => void;
 } & RouterProps;
 
 const ContactData = (props: contactData) => {
+    const [formIsValid, setFormIsValid] = useState(false);
     const [formValidation, setFormValidation] = useState<formValidation>({
         name: {
             validation: {
@@ -73,8 +73,6 @@ const ContactData = (props: contactData) => {
         }
     });
 
-    const [formIsValid, setFormIsValid] = useState(false);
-
     useEffect(() => {
         const checkFormValidity = () =>
             reduce(formValidation, (acc, val) => val.valid && acc, true);
@@ -84,7 +82,6 @@ const ContactData = (props: contactData) => {
 
     const inputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         const inputType = event.target.attributes.getNamedItem('name');
-
         if (!inputType) return;
 
         const updatedInput = {
@@ -131,6 +128,12 @@ const ContactData = (props: contactData) => {
         props.onOrderBurger(order, props.token);
     };
 
+    const purchaseFail = () => {
+        props.onInitPurchase();
+        alert(props.error);
+        props.history.push('/');
+    };
+
     const form = (
         <form onSubmit={orderHandler}>
             <input
@@ -174,12 +177,6 @@ const ContactData = (props: contactData) => {
         </form>
     );
 
-    const purchaseFail = () => {
-        props.onInitPurchase();
-        alert(props.error);
-        props.history.push('/');
-    };
-
     return (
         <React.Fragment>
             {props.error ? purchaseFail() : null}
@@ -201,7 +198,6 @@ const mapStateToProps = (state: {
         price: state.burgerBuilder.totalPrice,
         loading: state.orders.loading,
         error: state.orders.error,
-        purchased: state.orders.purchased,
         token: state.auth.token,
         userId: state.auth.userId
     };

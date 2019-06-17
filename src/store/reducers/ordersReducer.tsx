@@ -34,6 +34,7 @@ export const ordersReducer = (state = initialState, action: action) => {
     switch (action.type) {
         case 'PURCHASE_INIT':
             return { ...state, purchased: false, error: null };
+
         case 'PURCHASE_BURGER_START':
             return { ...state, loading: true };
         case 'PURCHASE_BURGER_SUCCESS':
@@ -48,6 +49,7 @@ export const ordersReducer = (state = initialState, action: action) => {
             };
         case 'PURCHASE_BURGER_FAIL':
             return { ...state, loading: false, error: action.error };
+
         case 'FETCH_ORDERS_START':
             return { ...state, loading: true };
         case 'FETCH_ORDERS_SUCCESS':

@@ -26,17 +26,22 @@ $bgColor: $color-buttonDisabled-brown) {
     cursor: $cursor;
 }
 
+.controller--container {
+    @include flexColumn();
+    width: 100vw;
+    height: calc(100vh - 62vh - 6vh);
+    background: linear-gradient($color-brown-secondary,
+        rgba($color-brown-primary, 1));
+    color: white;
+}
+
 .controller {
     @include flexRow(space-between);
     @include fontNunito();
-    width: 100vw;
-    height: calc(100vh - 60vh - 6vh);
-    background: linear-gradient($color-brown-secondary,
-        rgba($color-brown-primary, 1));
+    width: 80%;
     padding: 1rem 10rem;
-    color: white;
 
-    & p {
+    p {
         font-size: 2.5rem;
         padding: 2rem;
         text-align: center;
@@ -156,10 +161,13 @@ $bgColor: $color-buttonDisabled-brown) {
     }
 }
 
-@media only screen and (max-width: $bp-small) {
+@media only screen and (max-width: $bp-medium) {
+    .controller--container {
+        height: 100%;
+    }
+
     .controller {
         @include flexColumn();
-        height: 100%;
 
         p {
             @include flexRow();

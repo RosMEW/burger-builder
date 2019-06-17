@@ -1,19 +1,21 @@
 import React, { useEffect } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 import { map } from 'lodash';
+
 import Spinner from '../UI/Spinner/Spinner';
+
 import { fetchOrders } from '../store/actions/orders';
 import { ordersState, orderData } from '../store/reducers/ordersReducer';
 import { authState } from '../store/reducers/authReducer';
 import './Orders.scss';
 
 type orders = {
-    onFetchOrders: (token: string, userId: string) => void;
     orders: [];
     loading: boolean;
     token: string;
     userId: string;
     error: string;
+    onFetchOrders: (token: string, userId: string) => void;
 };
 
 const Orders = (props: orders) => {

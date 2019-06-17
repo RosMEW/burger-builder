@@ -1,18 +1,15 @@
 import React from 'react';
-
 import { map, range, flatten } from 'lodash';
+
 import BurgerIngredient from './BurgerIngredient/BurgerIngredient';
+
 import {
     ingredients,
     ingredientNames
 } from '../../store/reducers/burgerBuilderReducer';
 import './Burger.scss';
 
-type burger = {
-    ingredients: ingredients;
-};
-
-const Burger = (props: burger) => {
+const Burger = (props: { ingredients: ingredients }) => {
     let burgerIngs = map(props.ingredients, (val, ing: ingredientNames) =>
         range(val).map(i => <BurgerIngredient ingredient={ing} key={ing + i} />)
     );
