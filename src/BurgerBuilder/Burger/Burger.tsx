@@ -19,7 +19,7 @@ const Burger = (props: burger) => {
     burgerIngs = flatten(burgerIngs);
 
     return (
-        <div className='Burger'>
+        <div className='burger'>
             <BurgerIngredient ingredient='bread-top' />
             {burgerIngs.length === 0 ? (
                 <p className='addIngredient'>

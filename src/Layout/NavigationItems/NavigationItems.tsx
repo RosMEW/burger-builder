@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+
 import NavigationItem from './NavigationItem/NavigationItem';
+
 import { authState } from '../../store/reducers/authReducer';
 import './NavigationItems.scss';
 

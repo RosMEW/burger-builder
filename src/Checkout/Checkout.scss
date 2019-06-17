@@ -1,4 +1,5 @@
 @import '../style/mixins.scss';
+@import '../style/breakpoints.scss';
 
 .checkout {
     @include flexColumn();
@@ -9,7 +10,21 @@
         @include fontJosefin(6rem);
     }
 
+    &__burger {
+        width: 80rem;
+    }
+
     &__buttons {
         font-size: 3.5rem;
+    }
+}
+
+@media only screen and (max-width: $bp-small) {
+    .checkout {
+        text-align: center;
+
+        &__burger {
+            width: 100%;
+        }
     }
 }

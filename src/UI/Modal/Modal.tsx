@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 
 import Backdrop from '../Backdrop/Backdrop';
+
 import './Modal.scss';
 
 type modal = {

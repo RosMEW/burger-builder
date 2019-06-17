@@ -4,6 +4,7 @@ import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { BrowserRouter } from 'react-router-dom';
+
 import { burgerBuilderReducer } from './store/reducers/burgerBuilderReducer';
 import { ordersReducer } from './store/reducers/ordersReducer';
 import { authReducer } from './store/reducers/authReducer';

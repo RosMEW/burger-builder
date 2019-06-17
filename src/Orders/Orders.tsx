@@ -5,6 +5,7 @@ import Spinner from '../UI/Spinner/Spinner';
 import { fetchOrders } from '../store/actions/orders';
 import { ordersState, orderData } from '../store/reducers/ordersReducer';
 import { authState } from '../store/reducers/authReducer';
+import './Orders.scss';
 
 type orders = {
     onFetchOrders: (token: string, userId: string) => void;
@@ -23,19 +24,20 @@ const Orders = (props: orders) => {
 
     return (
         <div className='orders'>
+            <h4>Your Orders</h4>
             {props.loading ? (
                 <Spinner />
             ) : (
                 props.orders.map((order: orderData) => (
                     <div className='order' key={order.id}>
-                        <p>
-                            Ingredients:{' '}
+                        <p>Ingredients:</p>
+                        <div className='order__ingredients'>
                             {map(order.ingredients, (val, key) => (
-                                <span key={key}>
-                                    {key} {val}
-                                </span>
+                                <div key={key} className='ing'>
+                                    {key} <strong>{val}</strong>
+                                </div>
                             ))}
-                        </p>
+                        </div>
                         <p>
                             Price: <strong>CAD {order.price.toFixed(2)}</strong>
                         </p>

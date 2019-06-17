@@ -4,8 +4,9 @@ import { DispatchProp, connect } from 'react-redux';
 
 import Toolbar from './Layout/Toolbar/Toolbar';
 import BurgerBuilder from './BurgerBuilder/BurgerBuilder';
-import { authState } from './store/reducers/authReducer';
+
 import { authCheckState } from './store/actions/auth';
+import { authState } from './store/reducers/authReducer';
 import './App.scss';
 
 const Checkout = React.lazy(() => import('./Checkout/Checkout'));

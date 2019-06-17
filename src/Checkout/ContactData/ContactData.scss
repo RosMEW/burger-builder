@@ -1,5 +1,6 @@
 @import '../../style/mixins.scss';
 @import '../../style/color.scss';
+@import '../../style/breakpoints.scss';
 
 .contact-data {
     @include form();
@@ -33,4 +34,16 @@
 
 .inputInvalid {
     @include input-invalid ();
+}
+
+@media only screen and (max-width: $bp-largest) {
+    .contact-data {
+        width: 50vw;
+    }
+}
+
+@media only screen and (max-width: $bp-medium) {
+    .contact-data {
+        width: 100%;
+    }
 }

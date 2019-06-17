@@ -1,5 +1,6 @@
 @import '../style/mixins.scss';
 @import '../style/color.scss';
+@import '../style/breakpoints.scss';
 
 .auth {
     @include form();
@@ -29,7 +30,6 @@
         margin: 1.6rem;
         color: $color-bacon-1;
     }
-
 }
 
 .authButton {
@@ -40,4 +40,10 @@
 
 .inputInvalid {
     @include input-invalid ();
+}
+
+@media only screen and (max-width: $bp-largest) {
+    .auth {
+        width: 100%;
+    }
 }
