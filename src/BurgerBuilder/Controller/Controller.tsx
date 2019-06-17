@@ -1,21 +1,19 @@
 import React from 'react';
-import { reduce } from 'lodash';
+import { reduce, map } from 'lodash';
+import { connect } from 'react-redux';
 
-import {
-    ingredients,
-    ingredientNames
-} from '../../store/reducers/burgerBuilderReducer';
+import { ingredients } from '../../store/reducers/burgerBuilderReducer';
+import { authState } from '../../store/reducers/authReducer';
 import './Controller.scss';
 
 type controllerProps = {
     price: number;
     ingredients: ingredients;
+    isAuthenticated: boolean;
     ingredientRemoved: (option: string) => void;
     ingredientAdded: (option: string) => void;
     ordered: () => void;
 };
-
-const orderOptions: ingredientNames[] = ['meat', 'cheese', 'bacon', 'salad'];
 
 const Controller = (props: controllerProps) => {
     const ingsQuantity = reduce(
@@ -24,40 +22,46 @@ const Controller = (props: controllerProps) => {
         0
     );
 
-    const hasIngredient = ingsQuantity > 0;
-
     return (
-        <div className='controller'>
-            <p>
-                Current Price<span>$ {props.price.toFixed(2)}</span>
-            </p>
-            <div className='controller__options'>
-                {orderOptions.map(option => (
-                    <div className='option' key={option}>
-                        <div className='option__label'>{option}</div>
-                        <button
-                            className='option__less'
-                            onClick={() => props.ingredientRemoved(option)}
-                            disabled={props.ingredients[option] <= 0}>
-                            Less
-                        </button>
-                        <button
-                            className='option__more'
-                            onClick={() => props.ingredientAdded(option)}
-                            disabled={ingsQuantity >= 6}>
-                            More
-                        </button>
-                    </div>
-                ))}
+        <div className='controller--container'>
+            <div className='controller'>
+                <p>
+                    Current Price<span>$ {props.price.toFixed(2)}</span>
+                </p>
+                <div className='controller__options'>
+                    {map(props.ingredients, (val, key) => (
+                        <div className='option' key={key}>
+                            <div className='option__label'>{key}</div>
+                            <button
+                                className='option__less'
+                                onClick={() => props.ingredientRemoved(key)}
+                                disabled={val <= 0}>
+                                Less
+                            </button>
+                            <button
+                                className='option__more'
+                                onClick={() => props.ingredientAdded(key)}
+                                disabled={ingsQuantity >= 8}>
+                                More
+                            </button>
+                        </div>
+                    ))}
+                </div>
+                <button
+                    className='controller__button'
+                    disabled={ingsQuantity > 0 ? false : true}
+                    onClick={props.ordered}>
+                    {props.isAuthenticated ? 'ORDER NOW' : 'SIGN UP TO ORDER'}
+                </button>
             </div>
-            <button
-                className='controller__button'
-                disabled={!hasIngredient}
-                onClick={props.ordered}>
-                ORDER NOW
-            </button>
         </div>
     );
 };
 
-export default Controller;
+const mapStateToProps = (state: { auth: authState }) => {
+    return {
+        isAuthenticated: state.auth.token !== null
+    };
+};
+
+export default connect(mapStateToProps)(Controller);

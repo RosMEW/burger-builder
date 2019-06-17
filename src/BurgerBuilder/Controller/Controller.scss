@@ -1,5 +1,6 @@
 @import '../../style/color.scss';
 @import '../../style/mixins.scss';
+@import '../../style/breakpoints.scss';
 
 @mixin controllerButton($padding, $borderColor, $color: white) {
     display: block;
@@ -9,7 +10,7 @@
     color: $color;
     padding: $padding;
     text-align: center;
-    transition: all .3s;
+    transition: all 0.3s;
 }
 
 @mixin optionButton($bgColor) {
@@ -17,22 +18,30 @@
     background-color: $bgColor;
 }
 
-@mixin disabledButton($cursor: default, $color: $color-boxShadow-white, $bgColor: $color-buttonDisabled-brown) {
+@mixin disabledButton($cursor: default,
+$color: $color-boxShadow-white,
+$bgColor: $color-buttonDisabled-brown) {
     background-color: $bgColor;
     color: $color;
     cursor: $cursor;
 }
 
+.controller--container {
+    @include flexColumn();
+    width: 100vw;
+    height: calc(100vh - 62vh - 6vh);
+    background: linear-gradient($color-brown-secondary,
+        rgba($color-brown-primary, 1));
+    color: white;
+}
+
 .controller {
     @include flexRow(space-between);
     @include fontNunito();
-    width: 100vw;
-    height: calc(100vh - 60rem - 6rem);
-    background: linear-gradient($color-brown-secondary, rgba($color-brown-primary, 1));
+    width: 80%;
     padding: 1rem 10rem;
-    color: white;
 
-    & p {
+    p {
         font-size: 2.5rem;
         padding: 2rem;
         text-align: center;
@@ -74,32 +83,32 @@
 
             & button:hover:disabled {
                 @include disabledButton(not-allowed);
-
             }
 
             &__less {
-                @include optionButton(#D39952);
+                @include optionButton(#d39952);
             }
 
             &__less:hover,
             &__less:active {
-                @include optionButton(#DAA972);
+                @include optionButton(#daa972);
             }
 
             &__more {
-                @include optionButton(#8F5E1E);
+                @include optionButton(#8f5e1e);
             }
 
             &__more:hover,
             &__more:active {
-                @include optionButton(#99703F);
+                @include optionButton(#99703f);
             }
-
         }
     }
 
     &__button {
-        @include controllerButton(1.5rem 3rem, $color-orderButton-brown, $color-orderButton-brown);
+        @include controllerButton(1.5rem 3rem,
+        $color-orderButton-brown,
+        $color-orderButton-brown);
         @include fontNunito(1.8rem);
         background-color: $color-orderButton-yellow;
         font-weight: bold;
@@ -110,14 +119,13 @@
     &__button:hover,
     &__button:active {
         background-color: $color-orderButton-green;
-        animation: enable .5s linear;
+        animation: enable 0.5s linear;
     }
 
     &__button:disabled {
         @include disabledButton(not-allowed, #888, $color-boxShadow-white);
         border: 1px solid $color-boxShadow-white;
         animation: none;
-
     }
 }
 
@@ -132,5 +140,48 @@
 
     100% {
         transform: scale(1);
+    }
+}
+
+@media only screen and (max-width: $bp-largest) {
+    .controller {
+        padding: 0 2rem;
+
+        & p {
+            font-size: 2rem;
+
+            span {
+                font-size: 3rem;
+            }
+        }
+
+        &__button {
+            margin: 0;
+        }
+    }
+}
+
+@media only screen and (max-width: $bp-medium) {
+    .controller--container {
+        height: 100%;
+    }
+
+    .controller {
+        @include flexColumn();
+
+        p {
+            @include flexRow();
+            font-size: 2.5rem;
+            padding-bottom: 0;
+
+            span {
+                margin-left: 3rem;
+            }
+        }
+
+        &__button {
+            margin-top: 1rem;
+            margin-bottom: 1.5rem;
+        }
     }
 }

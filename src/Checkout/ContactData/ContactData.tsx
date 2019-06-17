@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { connect, DispatchProp } from 'react-redux';
+import { RouterProps } from 'react-router';
 import { Dictionary, reduce } from 'lodash';
 
-import { checkValidity } from './checkValidity';
 import Button from '../../UI/Button/Button';
 import Spinner from '../../UI/Spinner/Spinner';
+import { checkValidity } from './checkValidity';
 
 import { purchaseBurger } from '../../store/actions/orders';
 import {
@@ -12,9 +13,8 @@ import {
     ingredients
 } from '../../store/reducers/burgerBuilderReducer';
 import { ordersState, orderData } from '../../store/reducers/ordersReducer';
+import { authState } from '../../store/reducers/authReducer';
 import './ContactData.scss';
-import { RouterProps, Redirect } from 'react-router';
-import Modal from '../../UI/Modal/Modal';
 
 type inputValidation = {
     validation?: any;
@@ -28,14 +28,16 @@ type formValidation = Dictionary<inputValidation>;
 type contactData = {
     ingredients: ingredients;
     price: number;
-    onOrderBurger: (orderData: orderData, token: string) => void;
-    onInitPurchase: () => void;
     loading: boolean;
     error: string;
-    purchased: boolean;
+    token: string;
+    userId: string;
+    onInitPurchase: () => void;
+    onOrderBurger: (orderData: orderData, token: string) => void;
 } & RouterProps;
 
 const ContactData = (props: contactData) => {
+    const [formIsValid, setFormIsValid] = useState(false);
     const [formValidation, setFormValidation] = useState<formValidation>({
         name: {
             validation: {
@@ -59,14 +61,6 @@ const ContactData = (props: contactData) => {
             touched: false,
             value: ''
         },
-        email: {
-            validation: {
-                isEmail: true
-            },
-            valid: false,
-            touched: false,
-            value: ''
-        },
         tel: {
             validation: {
                 isNumber: true,
@@ -79,8 +73,6 @@ const ContactData = (props: contactData) => {
         }
     });
 
-    const [formIsValid, setFormIsValid] = useState(false);
-
     useEffect(() => {
         const checkFormValidity = () =>
             reduce(formValidation, (acc, val) => val.valid && acc, true);
@@ -90,7 +82,6 @@ const ContactData = (props: contactData) => {
 
     const inputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         const inputType = event.target.attributes.getNamedItem('name');
-
         if (!inputType) return;
 
         const updatedInput = {
@@ -130,11 +121,17 @@ const ContactData = (props: contactData) => {
         const order = {
             ingredients: props.ingredients,
             price: props.price,
-            orderData: formData
+            orderData: formData,
+            userId: props.userId
         };
 
-        let token = Math.random.toString(); // to be deleted
-        props.onOrderBurger(order, token);
+        props.onOrderBurger(order, props.token);
+    };
+
+    const purchaseFail = () => {
+        props.onInitPurchase();
+        alert(props.error);
+        props.history.push('/');
     };
 
     const form = (
@@ -163,14 +160,6 @@ const ContactData = (props: contactData) => {
                 required
             />
             <input
-                type='email'
-                name='email'
-                placeholder='E-Mail'
-                onChange={inputHandler}
-                className={classNameInvalid('email')}
-                required
-            />
-            <input
                 type='text'
                 name='tel'
                 placeholder='Phone Number'
@@ -188,16 +177,9 @@ const ContactData = (props: contactData) => {
         </form>
     );
 
-    const purchaseFail = () => {
-        props.onInitPurchase();
-        alert(props.error);
-        props.history.push('/');
-    };
-
     return (
         <React.Fragment>
             {props.error ? purchaseFail() : null}
-            {!props.error && props.purchased ? <Redirect to='/' /> : null}
             <div className='contact-data'>
                 <h4>Enter your Contact Data</h4>
                 {props.loading ? <Spinner /> : form}
@@ -209,13 +191,15 @@ const ContactData = (props: contactData) => {
 const mapStateToProps = (state: {
     burgerBuilder: burgerBuilderState;
     orders: ordersState;
+    auth: authState;
 }) => {
     return {
         ingredients: state.burgerBuilder.ingredients,
         price: state.burgerBuilder.totalPrice,
         loading: state.orders.loading,
         error: state.orders.error,
-        purchased: state.orders.purchased
+        token: state.auth.token,
+        userId: state.auth.userId
     };
 };
 

@@ -23,3 +23,48 @@
     font-weight: $fontWeight;
     font-family: 'Nunito', sans-serif;
 }
+
+@mixin form() {
+    @include flexColumn();
+    width: 50rem;
+    margin: 4rem auto;
+    padding: 3rem;
+    box-shadow: 5px 5px 1rem 3px $color-boxShadow-white;
+    border: 1rem solid $color-buttonBorder-brown;
+    border-radius: 1rem;
+}
+
+@mixin input() {
+    outline: none;
+    display: block;
+    margin: 5px;
+    padding: 6px 5rem;
+    text-align: center;
+    @include fontNunito(2rem);
+    border: 1px solid $color-boxShadow-white;
+    transition: all .3s;
+    background-color: white;
+    border-radius: 8px;
+}
+
+@mixin input-focus() {
+    outline: none;
+    transform: scale(1.05);
+    background-color: $color-border-white;
+}
+
+@mixin input-autofill() {
+    -webkit-box-shadow: 0 0 0 30px $color-border-white inset !important;
+}
+
+@mixin form-button {
+    @include fontJosefin();
+    font-size: 2.8rem;
+    margin-top: 2rem;
+}
+
+@mixin input-invalid {
+    border: 1px solid $color-bacon-1 !important;
+    background-color: #FDA49A !important;
+
+}

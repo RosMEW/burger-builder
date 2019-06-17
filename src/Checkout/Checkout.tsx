@@ -1,17 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Route } from 'react-router-dom';
+import { RouteComponentProps, Switch } from 'react-router';
 
 import Burger from '../BurgerBuilder/Burger/Burger';
-import Button from '../UI/Button/Button';
 import ContactData from './ContactData/ContactData';
+import Button from '../UI/Button/Button';
 
 import {
     burgerBuilderState,
     ingredients
 } from '../store/reducers/burgerBuilderReducer';
 import { ordersState } from '../store/reducers/ordersReducer';
-import { RouteComponentProps, Switch } from 'react-router';
 import './Checkout.scss';
 
 type checkout = {
@@ -51,9 +51,9 @@ const Checkout = (props: checkout) => {
 
     return (
         <div>
+            {props.purchased ? <Redirect to='/orders' /> : null}
             {props.ingredients ? (
                 <Switch>
-                    {props.purchased ? <Redirect to='/' /> : null}
                     <Route
                         path={props.match.path + '/contact-data'}
                         component={ContactData}

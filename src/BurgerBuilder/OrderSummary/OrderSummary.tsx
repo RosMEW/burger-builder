@@ -1,8 +1,9 @@
 import React from 'react';
-
 import { map } from 'lodash';
-import { ingredients } from '../../store/reducers/burgerBuilderReducer';
+
 import Button from '../../UI/Button/Button';
+
+import { ingredients } from '../../store/reducers/burgerBuilderReducer';
 import './OrderSummary.scss';
 
 type orderSummary = {
@@ -15,7 +16,7 @@ type orderSummary = {
 const OrderSummary = (props: orderSummary) => {
     const ingsSummary = map(props.ingredients, (val, ing) => (
         <li key={ing}>
-            <span style={{ textTransform: 'capitalize' }}>{ing}</span> {val}
+            <span>{ing}</span> {val}
         </li>
     ));
 

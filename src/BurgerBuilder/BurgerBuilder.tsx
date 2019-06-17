@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { connect, DispatchProp } from 'react-redux';
+import { RouterProps } from 'react-router';
 
 import Burger from './Burger/Burger';
 import Controller from './Controller/Controller';
 import Modal from '../UI/Modal/Modal';
 import OrderSummary from './OrderSummary/OrderSummary';
-
 import Spinner from '../UI/Spinner/Spinner';
+
 import { initIngredients } from '../store/actions/burgerBuilder';
 import {
     burgerBuilderState,
     ingredients
 } from '../store/reducers/burgerBuilderReducer';
-import { RouterProps } from 'react-router';
+import { authState } from '../store/reducers/authReducer';
 
 type burgerBuilderProps = {
     price: number;
@@ -21,6 +22,7 @@ type burgerBuilderProps = {
     onIngredientRemoved: (ing: string) => void;
     onInitIngredients: () => void;
     onInitPurchase: () => void;
+    isAuthenticated: boolean;
     error: boolean;
 } & RouterProps;
 
@@ -36,10 +38,12 @@ const BurgerBuilder = (props: burgerBuilderProps) => {
 
     useEffect(() => {
         onInitIngredients();
-    }, [onInitIngredients]);
+        // eslint-disable-next-line
+    }, []);
 
     const purchaseHandler = () => {
-        setPurchasing(true);
+        if (props.isAuthenticated) setPurchasing(true);
+        else props.history.push('/auth');
     };
 
     const purchaseCancelHandler = () => {
@@ -91,11 +95,15 @@ const BurgerBuilder = (props: burgerBuilderProps) => {
     );
 };
 
-const mapStateToProps = (state: { burgerBuilder: burgerBuilderState }) => {
+const mapStateToProps = (state: {
+    burgerBuilder: burgerBuilderState;
+    auth: authState;
+}) => {
     return {
         ingredients: state.burgerBuilder.ingredients,
         price: state.burgerBuilder.totalPrice,
-        error: state.burgerBuilder.error
+        error: state.burgerBuilder.error,
+        isAuthenticated: state.auth.token !== null
     };
 };
 

@@ -1,6 +1,7 @@
 import axios from '../../axios';
 import { DispatchProp } from 'react-redux';
 import { reduce } from 'lodash';
+// eslint-disable-next-line
 import { orderData } from '../reducers/ordersReducer';
 
 export const purchaseBurger = (orderData: orderData, token: string) => {

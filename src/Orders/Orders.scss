@@ -1,0 +1,35 @@
+@import '../style/color.scss';
+@import '../style/mixins.scss';
+
+.orders {
+    @include form();
+    text-align: center;
+
+    h4 {
+        @include fontJosefin(3rem, 400);
+        color: $color-brown-secondary;
+    }
+
+    .order {
+        @include fontNunito(1.8rem);
+        margin: 8px auto;
+        padding: 1rem;
+        border-top: 1px solid rgba($color-brown-secondary, 0.2);
+
+        &__ingredients {
+            @include flexRow(space-between);
+            text-transform: capitalize;
+            margin-bottom: 5px;
+
+            strong {
+                margin-right: 1.5rem;
+                margin-left: 0.5rem;
+            }
+        }
+
+        p strong {
+            margin-left: 0.8rem;
+        }
+
+    }
+}

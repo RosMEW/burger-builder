@@ -1,14 +1,9 @@
 @import '../../style/mixins.scss';
 @import '../../style/color.scss';
+@import '../../style/breakpoints.scss';
 
 .contact-data {
-    @include flexColumn();
-    width: 50rem;
-    margin: 4rem auto;
-    padding: 3rem;
-    box-shadow: 5px 5px 1rem 3px $color-boxShadow-white;
-    border: 1rem solid $color-buttonBorder-brown;
-    border-radius: 1rem;
+    @include form();
 
     & h4 {
         @include fontJosefin(2.5rem, 400);
@@ -20,37 +15,35 @@
         @include flexColumn();
 
         input {
-            outline: none;
-            display: block;
-            margin: 5px;
-            padding: 6px 5rem;
-            text-align: center;
-            @include fontNunito(2rem);
-            border: 1px solid $color-boxShadow-white;
-            transition: all .3s;
-            background-color: white;
-            border-radius: 8px;
+            @include input();
         }
 
         input:focus {
-            outline: none;
-            transform: scale(1.05);
-            background-color: $color-border-white;
+            @include input-focus();
         }
 
         input:-webkit-autofill {
-            -webkit-box-shadow: 0 0 0 30px $color-border-white inset !important;
+            @include input-autofill();
         }
 
         .formButton {
-            @include fontJosefin();
-            font-size: 2.8rem;
-            margin-top: 2rem;
+            @include form-button();
         }
     }
 }
 
 .inputInvalid {
-    border: 1px solid $color-bacon-1 !important;
-    background-color: #FDA49A !important;
+    @include input-invalid ();
+}
+
+@media only screen and (max-width: $bp-largest) {
+    .contact-data {
+        width: 50vw;
+    }
+}
+
+@media only screen and (max-width: $bp-medium) {
+    .contact-data {
+        width: 100%;
+    }
 }

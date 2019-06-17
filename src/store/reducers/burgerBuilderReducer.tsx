@@ -50,7 +50,8 @@ const addIngredient = (state: burgerBuilderState, action: action) => {
             ...state.ingredients,
             [action.ingName]: state.ingredients[action.ingName] + 1
         },
-        totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingName]
+        totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingName],
+        building: true
     };
 };
 
