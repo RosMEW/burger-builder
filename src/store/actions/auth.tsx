@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { DispatchProp } from 'react-redux';
+import config from '../../.config/apiKey.json';
 
 export const logout = () => {
     localStorage.removeItem('token');
@@ -24,12 +25,16 @@ export const auth = (email: string, password: string, isSignup: boolean) => {
             password: password,
             returnSecureToken: true
         };
-        let url =
-            'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=YOUR_API_KEY';
+
+        let url = `https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=${
+            config.firebaseApiKey
+        }`;
 
         if (!isSignup)
-            url =
-                'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=YOUR_API_KEY';
+            url = `https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=${
+                config.firebaseApiKey
+            }`;
+
         axios
             .post(url, authData)
             .then(response => {
