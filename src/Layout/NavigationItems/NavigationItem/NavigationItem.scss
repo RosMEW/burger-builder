@@ -1,0 +1,27 @@
+@import '../../../style/color.scss';
+@import '../../../style/mixins.scss';
+
+.navigation-item {
+    height: 100%;
+    width: auto;
+    list-style: none;
+
+    a {
+        @include flexRow();
+        @include fontJosefin(1.9rem);
+        text-align: center;
+        color: white;
+        text-decoration: none;
+        height: 100%;
+        padding: 1.6rem 1rem;
+        border-bottom: 0.5rem solid transparent;
+        transition: all .3s;
+    }
+
+    a:hover,
+    a:active,
+    &--active {
+        background-color: rgba(white, 0.1);
+        border-bottom: 4px solid $color-green-ui;
+    }
+}

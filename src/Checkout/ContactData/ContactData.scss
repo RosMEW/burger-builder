@@ -1,0 +1,49 @@
+@import '../../style/mixins.scss';
+@import '../../style/color.scss';
+@import '../../style/breakpoints.scss';
+
+.contact-data {
+    @include form();
+
+    & h4 {
+        @include fontJosefin(2.5rem, 400);
+        margin: 1.6rem;
+        color: $color-brown-secondary;
+    }
+
+    & form {
+        @include flexColumn();
+
+        input {
+            @include input();
+        }
+
+        input:focus {
+            @include input-focus();
+        }
+
+        input:-webkit-autofill {
+            @include input-autofill();
+        }
+
+        .formButton {
+            @include form-button();
+        }
+    }
+}
+
+.inputInvalid {
+    @include input-invalid ();
+}
+
+@media only screen and (max-width: $bp-largest) {
+    .contact-data {
+        width: 50vw;
+    }
+}
+
+@media only screen and (max-width: $bp-medium) {
+    .contact-data {
+        width: 100%;
+    }
+}

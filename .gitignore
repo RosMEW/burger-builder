@@ -2,8 +2,12 @@
 
 # dependencies
 /node_modules
+/.firebase
+/functions/node_modules
 /.pnp
 .pnp.js
+/src/.config
+
 
 # testing
 /coverage

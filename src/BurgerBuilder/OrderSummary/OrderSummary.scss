@@ -1,0 +1,38 @@
+@import '../../style/mixins.scss';
+
+.orderSummary {
+    @include flexColumn();
+    text-align: center;
+
+    h3,
+    p,
+    li:last-child {
+        margin-bottom: 1.5rem;
+    }
+
+    p {
+        font-size: 1.7rem;
+
+        span {
+            margin-right: 5rem;
+        }
+    }
+
+    li {
+        @include flexRow(space-between);
+
+        span {
+            margin-right: 8rem;
+            text-transform: capitalize;
+        }
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    &__buttons {
+        @include fontJosefin(2rem);
+        @include flexRow(space-between);
+    }
+}

@@ -1,0 +1,10 @@
+@import './style/mixins.scss';
+
+.container {
+    height: 100%;
+    @include flexColumn();
+}
+
+main {
+    margin-top: 6vh;
+}
